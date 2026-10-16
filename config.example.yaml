@@ -1,0 +1,91 @@
+# vidopt Example Configuration
+# All options can be overridden with environment variables (e.g. VIDOPT_LIBRARY_PATH=/media)
+# or CLI flags (e.g. --library-path /media).
+
+# Source media library to scan and optimize
+library_path: "/library"
+
+# Optional separate output folder (Unmanic-style).
+# If left empty (""), vidopt operates in-place, replacing original files.
+output_path: ""
+
+# Fast temporary scratch path (isolated from RAID parity drives)
+scratch_path: "/scratch"
+
+# SQLite database file path
+database_path: "/data/vidopt.db"
+
+# Minimum space savings required to justify re-encoding (percent)
+min_savings_percent: 20.0
+
+# Target modern video codec: "auto", "av1", or "hevc"
+# "auto" detects best hardware acceleration available (QSV/VAAPI) or falls back to SVT-AV1
+target_codec: "auto"
+
+# Encoder preset (e.g. "6" for svt-av1, "p6" for nvenc, "quality" for qsv)
+encoder_preset: "6"
+
+# Constant Rate Factor (CRF).
+# 0 = dynamic perceptual quality search (finds highest CRF that maintains target_vmaf).
+# > 0 (e.g. 22) = fixed static CRF across all files.
+target_crf: 0
+
+# Target VMAF perceptual quality score (0-100).
+# 93.0 is the industry threshold for perceptually transparent (indistinguishable) compression.
+# Set to 0 to disable VMAF measurement and use resolution-tier heuristics only.
+target_vmaf: 93.0
+
+# Initial seed CRF per resolution tier (used as the starting point for perceptual CRF search).
+# Note: interlaced / DV camcorder videos automatically receive -2 (e.g. 20) as their initial seed.
+crf_tiers:
+  sd: 22    # <= 576p (DV, VCR, VHS, DVD)
+  hd: 24    # 720p
+  fhd: 26   # 1080p
+  uhd: 28   # 4K / 2160p+
+
+
+# Hardware acceleration mode: "auto", "nvenc", "qsv", "vaapi", or "cpu"
+hardware_accel: "auto"
+
+# Deinterlacing mode: "auto" (default: detect interlaced video and apply bwdif),
+# "on" (always deinterlace), "off" (never), or custom filter expression (e.g. "bwdif=mode=0", "bwdif=mode=1")
+deinterlace: "auto"
+
+# Re-evaluate and re-transcode files even if already processed or already in target codec
+reprocess: false
+
+# Periodic scan schedule (cron syntax: "@daily", "@hourly", "0 2 * * *")
+scan_schedule: "@daily"
+
+# Real-time filesystem watching with fsnotify
+watch_realtime: false
+
+# Settling time in seconds before processing a newly written file
+debounce_seconds: 60
+
+# Preserve original file modification timestamps (avoids media server re-indexing)
+preserve_timestamps: true
+
+# In-place mode: keep original files with .original suffix
+keep_backup: true
+
+# Directories or patterns to ignore
+excluded_paths:
+  - "@eaDir"
+  - "#recycle"
+  - ".grab"
+  - ".tmp"
+  - ".backup"
+
+# Video extensions to monitor
+video_extensions:
+  - ".mkv"
+  - ".mp4"
+  - ".avi"
+  - ".mov"
+  - ".ts"
+  - ".m4v"
+  - ".webm"
+
+# Maximum concurrent transcode jobs (1 is recommended for NAS hardware GPUs)
+max_workers: 1

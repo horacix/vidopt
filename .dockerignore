@@ -1,0 +1,41 @@
+# Binaries
+/vidopt
+/vidopt.exe
+*.exe
+bin/
+dist/
+
+# Runtime data, databases & scratch directories
+data/
+scratch/
+library/
+output/
+*.db
+*.db-wal
+*.db-shm
+*.db-journal
+*.mkv
+*.mp4
+*.avi
+*.mov
+*.ts
+*.m4v
+*.webm
+*.original
+
+# Local configuration & secrets
+config.yaml
+.env
+.env.*
+
+# Git, CI, IDE & Documentation (not needed in Docker build context)
+.git/
+.github/
+.vscode/
+.idea/
+.antigravity/
+.gemini/
+*.md
+LICENSE
+docker-compose.yml
+coverage.out

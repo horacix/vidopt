@@ -1,0 +1,38 @@
+services:
+  vidopt:
+    build: .
+    image: vidopt:latest
+    container_name: vidopt
+    restart: unless-stopped
+    devices:
+      # Pass through Intel Quick Sync / VAAPI hardware device node
+      - /dev/dri:/dev/dri
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/New_York
+      # Core Paths
+      - VIDOPT_LIBRARY_PATH=/library
+      # Optional separate output folder (Unmanic-style). Uncomment to enable:
+      # - VIDOPT_OUTPUT_PATH=/output
+      - VIDOPT_SCRATCH_PATH=/scratch
+      - VIDOPT_DATABASE_PATH=/data/vidopt.db
+      # Codec & Savings Tuning
+      - VIDOPT_TARGET_CODEC=auto        # auto detects QSV/VAAPI or falls back to SVT-AV1
+      - VIDOPT_MIN_SAVINGS_PERCENT=20   # skips files that don't save at least 20%
+      - VIDOPT_TARGET_CRF=28            # 0 for auto-tuning with sample probe
+      # Scheduling & Real-time Watching
+      - VIDOPT_SCAN_SCHEDULE=@daily     # Cron schedule (@daily, @hourly, "0 2 * * *")
+      - VIDOPT_WATCH_REALTIME=false     # Set to true to enable continuous fsnotify watching
+      # NAS Safety & Timestamps
+      - VIDOPT_PRESERVE_TIMESTAMPS=true # Preserves mtime for media server indexing
+      - VIDOPT_KEEP_BACKUP=true         # Keeps .original file in in-place mode
+    volumes:
+      # Mount your NAS video library
+      - /volume1/video:/library
+      # Optional separate output destination (Unmanic-style)
+      # - /volume1/optimized:/output
+      # Fast local SSD or scratch volume for intermediate encodes
+      - /volume1/scratch:/scratch
+      # Persistent application data (SQLite database & optional config.yaml)
+      - ./data:/data

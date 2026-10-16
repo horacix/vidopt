@@ -1,0 +1,70 @@
+# Compiled Binaries & Build Output
+/vidopt
+/vidopt.exe
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+bin/
+dist/
+build/
+
+# Test & Coverage Artifacts
+*.test
+*.out
+coverage.txt
+coverage.html
+
+# Go Workspace
+go.work
+go.work.sum
+
+# Runtime Data, Scratch & Local Media
+data/
+scratch/
+library/
+output/
+*.db
+*.db-wal
+*.db-shm
+*.db-journal
+*.mkv
+*.mp4
+*.avi
+*.mov
+*.ts
+*.m4v
+*.webm
+*.original
+*.backup
+
+# Local User Configuration & Secrets
+config.yaml
+config.local.yaml
+*.local.yaml
+.env
+.env.*
+*.pem
+*.key
+
+# IDE, Editor & AI Assistant Directories
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.antigravity/
+.gemini/
+.cursor/
+.claude/
+
+# OS-Generated Files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+Desktop.ini
