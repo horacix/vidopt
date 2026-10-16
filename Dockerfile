@@ -3,7 +3,7 @@
 # ---------------------------------------------------------
 # Build Stage
 # ---------------------------------------------------------
-FROM golang:bookworm AS builder
+FROM golang:1.27-bookworm AS builder
 
 WORKDIR /build
 

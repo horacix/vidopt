@@ -10,7 +10,7 @@ func TestDatabaseOperations(t *testing.T) {
 	if err != nil {
 		t.Fatalf("failed to open in-memory sqlite db: %v", err)
 	}
-	defer db.Close()
+	defer func() { _ = db.Close() }()
 
 	testFile := &ProcessedFile{
 		FilePath:          "/library/movies/test.mkv",

@@ -140,7 +140,7 @@ func (db *DB) GetStats() (*StatsSummary, error) {
 	// Codec breakdown
 	rows, err := db.conn.Query(`SELECT source_codec, COUNT(*) FROM processed_files GROUP BY source_codec;`)
 	if err == nil {
-		defer rows.Close()
+		defer func() { _ = rows.Close() }()
 		for rows.Next() {
 			var codec string
 			var count int
@@ -171,7 +171,7 @@ func (db *DB) ListRecentFiles(limit int) ([]*ProcessedFile, error) {
 	if err != nil {
 		return nil, err
 	}
-	defer rows.Close()
+	defer func() { _ = rows.Close() }()
 
 	var results []*ProcessedFile
 	for rows.Next() {

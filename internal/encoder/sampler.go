@@ -365,7 +365,7 @@ func (s *Sampler) testCRF(
 	if err != nil {
 		return nil, fmt.Errorf("cannot create temporary sample directory: %w", err)
 	}
-	defer os.RemoveAll(sampleTempDir)
+	defer func() { _ = os.RemoveAll(sampleTempDir) }()
 
 	for i, clip := range plan.Clips {
 		outClipPath := filepath.Join(sampleTempDir, fmt.Sprintf("clip_%d.mkv", i))

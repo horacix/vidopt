@@ -173,7 +173,7 @@ func newRunCmd() *cobra.Command {
 			if err != nil {
 				return err
 			}
-			defer db.Close()
+			defer func() { _ = db.Close() }()
 
 			orch, err := pipeline.NewOrchestrator(cfg, db)
 			if err != nil {
@@ -249,7 +249,7 @@ func newScanCmd() *cobra.Command {
 			if err != nil {
 				return err
 			}
-			defer db.Close()
+			defer func() { _ = db.Close() }()
 
 			orch, err := pipeline.NewOrchestrator(cfg, db)
 			if err != nil {
@@ -405,7 +405,7 @@ func newProcessCmd() *cobra.Command {
 			if err != nil {
 				return err
 			}
-			defer db.Close()
+			defer func() { _ = db.Close() }()
 
 			orch, err := pipeline.NewOrchestrator(cfg, db)
 			if err != nil {
@@ -431,7 +431,7 @@ func newStatsCmd() *cobra.Command {
 			if err != nil {
 				return err
 			}
-			defer db.Close()
+			defer func() { _ = db.Close() }()
 
 			stats, err := db.GetStats()
 			if err != nil {
